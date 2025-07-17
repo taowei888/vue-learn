@@ -1,0 +1,43 @@
+// 命名空间，常作前缀
+$namespace: 'tw' !default; // !default 表示若没有被赋值过就使用这个值
+$block-sel: "-" !default;
+$element-sel: "__" !default;
+$modifier-sel: "--" !default;
+
+
+@mixin b($block) {
+
+    // 如 <div class="tw-input"></div>
+    $B: #{$namespace + $block-sel + $block};
+
+    .#{$B} {
+        // 占位符，可理解为插槽
+        @content;
+    }
+}
+
+
+@mixin e($el) {
+    // 如 <div class="tw-input__inner"></div>
+    $selector: &;
+
+    // @at-root 跳出嵌套，编译出来不会加上父选择器类名
+    @at-root {
+        #{$selector + $element-sel + $el} {
+            @content;
+        }
+    }
+}
+
+
+@mixin m($m) {
+    // 如 <div class="tw-input__inner--red"></div>
+    $selector: &;
+
+    // @at-root 跳出嵌套，编译出来不会加上父选择器类名
+    @at-root {
+        #{$selector + $modifier-sel + $m} {
+            @content;
+        }
+    }
+}
